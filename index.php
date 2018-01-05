@@ -15,7 +15,7 @@
 <body onload="initialize();">
   <div id="container">
     <div id="nav">Nav Menu</div>
-    <h1>Kaardirakendus</h1>
+    <h1 id="pealkiri">Kaardirakendus</h1>
     <div id="map"></div>
   </div>
 

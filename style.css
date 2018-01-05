@@ -31,6 +31,10 @@ body {
   border: 1px #000 Solid;
   padding: 5px;
 }
+#pealkiri {
+  z-index: 100;
+  position: absolute;
+}
 #map {
   width: 100%;
   height: 100%
