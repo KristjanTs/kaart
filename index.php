@@ -10,8 +10,7 @@
 
   <link rel="stylesheet" href="http://kaart.1473350.ee/wp-content/themes/kaart-3/style.css" />
 </head>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAs8Bmb6fzACSu3RDyMWV7JVxrXKp6D9o&callback=initMap"
-  type="text/javascript"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAs8Bmb6fzACSu3RDyMWV7JVxrXKp6D9o&callback=initMap" type="text/javascript"></script>
 
 <body onload="initialize();">
   <div id="container">
@@ -22,9 +21,9 @@
   <script>
   function initialize() {
     var mapOptions = {
-      center: new google.maps.LatLng(40.435833800555567, -78.44189453125),
+      center: new google.maps.LatLng(58.382014, 26.728904),
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      zoom: 11
+      zoom: 6
     };
     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
   };
