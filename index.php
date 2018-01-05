@@ -10,7 +10,8 @@
 
   <link rel="stylesheet" href="http://kaart.1473350.ee/wp-content/themes/kaart-3/style.css" />
 </head>
-<script src="http://maps.google.com/maps/api/js?sensor=false&libraries=places" type="text/javascript"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAs8Bmb6fzACSu3RDyMWV7JVxrXKp6D9o&callback=initMap"
+  type="text/javascript"></script>
 
 <body onload="initialize();">
   <div id="container">
