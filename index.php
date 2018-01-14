@@ -14,7 +14,7 @@
 <body>
   <div id="container">
     <div id="nav2">
-      <a href="linnamuuseum.tartu.ee"><img src="linnamuuseum.png" /></a>
+      <a href="http://www.linnamuuseum.tartu.ee"><img src="linnamuuseum.png" /></a>
     </div>
     <div id="map"></div>
   </div>
