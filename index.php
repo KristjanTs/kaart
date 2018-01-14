@@ -8,13 +8,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="http://kaart.1473350.ee/wp-content/themes/kaart-3/style.css" />
 </head>
 
 <body>
   <div id="container">
     <div id="nav2">
-      <a href="https://linnamuuseum.tartu.ee/" ><img src="linnamuuseum.png" /></a>
+      <a href="linnamuuseum.tartu.ee"><img src="linnamuuseum.png" /></a>
     </div>
     <div id="map"></div>
   </div>
