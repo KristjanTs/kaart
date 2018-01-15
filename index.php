@@ -14,7 +14,7 @@
 <body>
   <div id="container">
     <div id="nav2">
-      <a href="http://www.linnamuuseum.tartu.ee"><img src="http://kaart.1473350.ee/wp-content/uploads/2018/01/linnamuuseum.png" /></a>
+      <a href="http://www.linnamuuseum.tartu.ee"><img id="pilt" src="http://kaart.1473350.ee/wp-content/uploads/2018/01/linnamuuseum.png" /></a>
     </div>
     <div id="map"></div>
   </div>
