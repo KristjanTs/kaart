@@ -8,14 +8,25 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="http://kaart.1473350.ee/wp-content/themes/kaart-3/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <div id="container">
     <div id="nav2">
-      <a href="http://www.linnamuuseum.tartu.ee"><img id="pilt" src="http://kaart.1473350.ee/wp-content/uploads/2018/01/linnamuuseum.png" /></a>
+      <a href="http://www.linnamuuseum.tartu.ee"><img id="pilt" src="linnamuuseum.png" /></a>
     </div>
+    <div class="row">
+      <div class="col-lg-4">
+
+      </div>
+      <div class="col-lg-8">
+        <div id="rightMenu">
+          test
+        </div>
+      </div>
+    </div>
+
     <div id="map"></div>
   </div>
 
@@ -167,8 +178,21 @@
         });
         marker.addListener("click", function(){
           infoWindow.open(map, marker);
+          $("#rightMenu").css("display","inline");
         });
+
       }
+
+    $('*').click(function(e) {
+      if(e.target.id != 'rightMenu') {
+        if($("#rightMenu").css("display") === "inline") {
+          alert("lol");
+          $("#rightMenu").css("display","none");
+        }
+      }
+
+    });
+
 
       // popup - delete later
       var infoWindow = new google.maps.InfoWindow({
