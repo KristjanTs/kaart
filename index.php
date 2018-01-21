@@ -14,7 +14,7 @@
 <body>
   <div id="container">
     <div id="nav2">
-      <a href="http://www.linnamuuseum.tartu.ee"><img id="pilt" src="linnamuuseum.png" /></a>
+      <a href="https://www.linnamuuseum.tartu.ee"><img id="pilt" src="https://kaart.1473350.ee/wp-content/uploads/2018/01/linnamuuseum.png" /></a>
     </div>
     <div class="row">
       <div class="col-lg-4">
@@ -174,7 +174,7 @@
         var marker = new google.maps.Marker({
           position: new google.maps.LatLng(lat, lon),
           map: map,
-          icon: "http://kaart.1473350.ee/wp-content/uploads/2018/01/map.png"
+          icon: "https://kaart.1473350.ee/wp-content/uploads/2018/01/map.png"
         });
         marker.addListener("click", function(){
           infoWindow.open(map, marker);
