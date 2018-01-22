@@ -17,12 +17,15 @@
       <a href="https://www.linnamuuseum.tartu.ee"><img id="pilt" src="https://kaart.1473350.ee/wp-content/uploads/2018/01/linnamuuseum.png" /></a>
     </div>
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-lg-4 col-md-4 col-sm-0 col-xs-0">
 
       </div>
-      <div class="col-lg-8">
+      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
         <div id="rightMenu">
-          test
+          <button type="button" class="btn btn-danger float-right" id="closeRight">
+            Test
+          </button>
+
         </div>
       </div>
     </div>
@@ -155,6 +158,7 @@
         zoom: 15,
         disableDefaultUI: true,
         zoomControl: true,
+        minZoom: 14,
         mapTypeControlOptions: {
           mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
           'styled_map']
@@ -177,26 +181,18 @@
           icon: "https://kaart.1473350.ee/wp-content/uploads/2018/01/map.png"
         });
         marker.addListener("click", function(){
-          infoWindow.open(map, marker);
           $("#rightMenu").css("display","inline");
         });
 
       }
 
-    $('*').click(function(e) {
-      if(e.target.id != 'rightMenu') {
-        if($("#rightMenu").css("display") === "inline") {
-          alert("lol");
-          $("#rightMenu").css("display","none");
-        }
-      }
-
+    $('#closeRight').click(function() {
+      $("#rightMenu").css("display","none");
     });
 
 
       // popup - delete later
       var infoWindow = new google.maps.InfoWindow({
-        content: "<h6>Lorem ipsum</h6>"
       });
 
 
