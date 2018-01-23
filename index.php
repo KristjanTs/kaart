@@ -188,13 +188,13 @@
           icon: "https://kaart.1473350.ee/wp-content/uploads/2018/01/map.png"
         });
         marker.addListener("click", function(){
-          $("#rightMenu").fadeIn("fast");
+          $("#rightMenu").fadeIn();
         });
 
       }
 
     $('#closeRight').click(function() {
-      $("#rightMenu").fadeOut("fast");
+      $("#rightMenu").fadeOut();
     });
 
 
