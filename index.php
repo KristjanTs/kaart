@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <title>Kaardirakendus</title>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="https://kaart.1473350.ee/wp-content/themes/kaart-3/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -22,10 +22,17 @@
       </div>
       <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
         <div id="rightMenu">
-          <button type="button" class="btn btn-danger float-right" id="closeRight">
-            Test
+          <button type="button" class="btn btn-danger" id="closeRight">
+            Sulge
           </button>
-
+          <button type="button" class="btn btn-primary keelEst">Est</button>
+          <button type="button" class="btn btn-primary keelGer">Ger</button> <br  />
+          <div class="est">
+            Lorem ipsum EST.
+          </div>
+          <div class="ger">
+            Lorem ipsum Ger
+          </div>
         </div>
       </div>
     </div>
@@ -181,22 +188,30 @@
           icon: "https://kaart.1473350.ee/wp-content/uploads/2018/01/map.png"
         });
         marker.addListener("click", function(){
-          $("#rightMenu").css("display","inline");
+          $("#rightMenu").fadeIn("fast");
         });
 
       }
 
     $('#closeRight').click(function() {
-      $("#rightMenu").css("display","none");
+      $("#rightMenu").fadeOut("fast");
     });
 
 
       // popup - delete later
       var infoWindow = new google.maps.InfoWindow({
       });
-
-
     };
+
+    $(".keelGer").click(function(){
+      $(".est").css("display", "none");
+      $(".ger").css("display", "inline");
+    })
+    $(".keelEst").click(function(){
+      $(".ger").css("display", "none");
+      $(".est").css("display", "inline");
+    })
+
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAs8Bmb6fzACSu3RDyMWV7JVxrXKp6D9o&callback=initMap" type="text/javascript"></script>
 
