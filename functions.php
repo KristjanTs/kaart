@@ -24,7 +24,7 @@ function json_api_add_acf(&$post)
 
 function my_acf_google_map_api( $api ){
 
-	$api['key'] = 'xxx';
+	$api['key'] = 'AIzaSyAAs8Bmb6fzACSu3RDyMWV7JVxrXKp6D9o';
 
 	return $api;
 
