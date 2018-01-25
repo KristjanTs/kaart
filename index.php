@@ -188,6 +188,13 @@
       });
 
       var api = "https://kaart.1473350.ee/wp-json/wp/v2/posts";
+      var sissejuhatusAPI = "https://kaart.1473350.ee/wp-json/wp/v2/sissejuhatus";
+
+      $.getJSON(sissejuhatusAPI, function(data){
+        $(".right-menu-heading").html("<h3 class='text-center'>"+data[0].title.rendered+"</h3>");
+        $(".right-menu-content").html("<p>"+data[0].content.rendered+"</p>");
+      });
+
       $.getJSON(api, function(data){
         for(var i=0;i<data.length;i++){
           var marker = new google.maps.Marker({
