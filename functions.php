@@ -21,3 +21,13 @@ function json_api_add_acf(&$post)
 {
     $post->acf = get_fields($post->id);
 }
+
+function my_acf_google_map_api( $api ){
+
+	$api['key'] = 'xxx';
+
+	return $api;
+
+}
+
+add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
