@@ -31,6 +31,8 @@
           </div>
           <div class="right-menu-content-ger">
           </div>
+          <div class="right-menu-picture">
+          </div>
         </div>
       </div>
     </div>
@@ -218,6 +220,9 @@
               $(".right-menu-heading").html("<h3>" + data[i].title.rendered + "</h3>");
               $(".right-menu-content").html("<p>"+data[i].content.rendered+"</p>");
               $(".right-menu-content-ger").html("<p>"+data[i].acf.sisu_saksa_keeles+"</p>")
+              if(data[i].acf.pilt != undefined){
+                $(".right-menu-picture").html("<img src="+data[i].acf.pilt+" class='img-fluid text-center' 'alt=Responsive image'>");
+              }
             }
           }(marker, i));
         }
