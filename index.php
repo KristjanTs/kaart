@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="https://kaart.1473350.ee/wp-content/themes/kaart-3/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -176,9 +176,7 @@
       map.mapTypes.set('styled_map', styledMapType);
       map.setMapTypeId('styled_map');
 
-      addMarker(58.380790, 26.730808);
-      addMarker(58.384795, 26.728480);
-      addMarker(58.380668, 26.716430);
+
 
       //Add marker
       function addMarker(lat, lon){
@@ -198,9 +196,19 @@
     });
 
 
-      // popup - delete later
+      // popup - delete later-
       var infoWindow = new google.maps.InfoWindow({
       });
+
+      var api = "https://kaart.1473350.ee/wp-json/wp/v2/posts";
+
+      $.getJSON(api, function(data){
+        for(var i=0;i<data.length;i++){
+          addMarker(data[i].acf.lat, data[i].acf.lon);
+        }
+        console.log(data.length);
+
+      })
     };
 
     $(".keelGer").click(function(){
