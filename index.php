@@ -22,16 +22,14 @@
       </div>
       <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
         <div id="rightMenu">
-          <button type="button" class="btn btn-danger" id="closeRight">
-            Sulge
-          </button>
-          <button type="button" class="btn btn-primary keelEst">Est</button>
-          <button type="button" class="btn btn-primary keelGer">Ger</button> <br  />
-          <div class="est">
-            Lorem ipsum EST.
+          <button type='button' class='btn btn-danger btn-sm' id='closeRight'>Sulge</button>
+          <button type="button" class="btn btn-primary btn-sm keelEst">Est</button>
+          <button type="button" class="btn btn-primary btn-sm keelGer">Ger</button> <br  />
+          <div class="right-menu-heading">
           </div>
-          <div class="ger">
-            Lorem ipsum Ger
+          <div class="right-menu-content">
+          </div>
+          <div class="right-menu-content-ger">
           </div>
         </div>
       </div>
@@ -179,46 +177,59 @@
 
 
       //Add marker
-      function addMarker(lat, lon){
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(lat, lon),
-          map: map,
-          icon: "https://kaart.1473350.ee/wp-content/uploads/2018/01/map.png"
-        });
-        marker.addListener("click", function(){
-          $("#rightMenu").fadeIn();
-        });
-
-      }
-
-    $('#closeRight').click(function() {
-      $("#rightMenu").fadeOut();
-    });
 
 
-      // popup - delete later-
-      var infoWindow = new google.maps.InfoWindow({
+
+      google.maps.event.addListener(map, 'click', function() {
+        $("#rightMenu").fadeOut();
+      });
+      $('#closeRight').click(function() {
+        $("#rightMenu").fadeOut();
       });
 
       var api = "https://kaart.1473350.ee/wp-json/wp/v2/posts";
-
       $.getJSON(api, function(data){
         for(var i=0;i<data.length;i++){
-          addMarker(data[i].acf.lat, data[i].acf.lon);
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(data[i].acf.lat, data[i].acf.lon),
+            map: map,
+            title: data[i].title.rendered,
+            icon: "https://kaart.1473350.ee/wp-content/uploads/2018/01/map.png"
+
+          });
+
+          var infowindow = new google.maps.InfoWindow({
+            content: data[i].content.rendered
+          });
+
+          google.maps.event.addListener(marker, 'click', function(marker, i) {
+            return function() {
+              //changeText();
+              infowindow.setContent(data[i].content.rendered + "");
+              $("#rightMenu").fadeIn();
+              $(".right-menu-heading").html("<h3>" + data[i].title.rendered + "</h3>");
+              $(".right-menu-content").html("<p>"+data[i].content.rendered+"</p>");
+              $(".right-menu-content-ger").html("<p>"+data[i].acf.sisu_saksa_keeles+"</p>")
+            }
+          }(marker, i));
         }
         console.log(data.length);
-
       })
     };
 
     $(".keelGer").click(function(){
-      $(".est").css("display", "none");
-      $(".ger").css("display", "inline");
+      $(".right-menu-content").css("display", "none");
+      $(".right-menu-content-ger").css("display", "inline");
     })
+
     $(".keelEst").click(function(){
-      $(".ger").css("display", "none");
-      $(".est").css("display", "inline");
+      $(".right-menu-content-ger").css("display", "none");
+      $(".right-menu-content").css("display", "inline");
     })
+
+
+
+
 
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAs8Bmb6fzACSu3RDyMWV7JVxrXKp6D9o&callback=initMap" type="text/javascript"></script>
