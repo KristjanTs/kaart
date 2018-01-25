@@ -193,6 +193,7 @@
       $.getJSON(sissejuhatusAPI, function(data){
         $(".right-menu-heading").html("<h3 class='text-center'>"+data[0].title.rendered+"</h3>");
         $(".right-menu-content").html("<p>"+data[0].content.rendered+"</p>");
+        $(".right-menu-content-ger").html("<p>"+data[0].acf.saksa_keelne_sissejuhatus+"</p>");
       });
 
       $.getJSON(api, function(data){
