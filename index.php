@@ -198,16 +198,38 @@
         $(".right-menu-content-ger").html("<p>"+data[0].acf.saksa_keelne_sissejuhatus+"</p>");
       });
 
+      var infoWindow = new google.maps.InfoWindow;
+
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+
       $.getJSON(api, function(data){
         for(var i=0;i<data.length;i++){
           var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(data[i].acf.lat, data[i].acf.lon),
+            //position: new google.maps.LatLng(data[i].acf.kaart.lat, data[i].acf.kaart.lon),
+            position: new google.maps.LatLng(data[i].acf.kaart.lat, data[i].acf.kaart.lng),
             map: map,
             title: data[i].title.rendered,
             icon: "https://kaart.1473350.ee/wp-content/uploads/2018/01/map.png"
 
           });
-
           var infowindow = new google.maps.InfoWindow({
             content: data[i].content.rendered
           });
