@@ -51,7 +51,7 @@
     <div id="map"></div>
   </div>
 
-  <script src="main.js"></script>
+  <script src="https://kaart.1473350.ee/wp-content/themes/kaart-3/main.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAs8Bmb6fzACSu3RDyMWV7JVxrXKp6D9o&callback=initMap" type="text/javascript"></script>
 
 </body>
