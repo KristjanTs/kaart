@@ -166,6 +166,16 @@ function initMap() {
 
     $.getJSON(api, function(data){
       for(var i=0;i<data.length;i++){
+        var gerList = [];
+        if (typeof data[i].pure_taxonomies.kategooriad_saksa_keeles !== "undefined"){
+          for(var j=0; j<data[i].pure_taxonomies.kategooriad_saksa_keeles.length; j++){
+            gerList.push(data[i].pure_taxonomies.kategooriad_saksa_keeles[j].name);
+          }
+        }
+
+        //for(var j=0; j<data[i].pure_taxonomies.kategooriad_saksa_keeles.length;j++){
+          //categoriesGer.push(data[i].pure_taxonomies.kategooriad_saksa_keeles[j]);
+        //}
         markerList.push({
           lat: data[i].acf.kaart.lat,
           lon: data[i].acf.kaart.lng,
@@ -173,9 +183,11 @@ function initMap() {
           rightHeadingGer: data[i].acf.pealkiri_saksa_keeles,
           rightContent: data[i].content.rendered,
           rightContentGer: data[i].acf.sisu_saksa_keeles,
-          categories: data[i].categories
+          categories: data[i].categories,
+          categoriesGer: gerList
         });
       }
+      console.log(markerList[0].categoriesGer);
       for (var i = 0; i < markerList.length; i++) {
           addMarker(markerList[i]);
       }
@@ -200,28 +212,26 @@ function initMap() {
         $(".right-menu-heading-ger").html("<h3>"+marker.rightHeadingGer+"</h3>")
         $(".right-menu-content").html("<p>"+marker.rightContent+"</p>");
         $(".right-menu-content-ger").html("<p>"+marker.rightContentGer+"</p>");
-        var string = "Kategooriad: ";
+        var kategooriadString = "Kategooriad: ";
         for(var i=0; i<marker.categories.length; i++){
           if (i==marker.categories.length-1){
-            string+=(categoryNames[categories.indexOf(marker.categories[i])]);
+            kategooriadString+=(categoryNames[categories.indexOf(marker.categories[i])]);
           }
           else {
-            string+=(categoryNames[categories.indexOf(marker.categories[i])]+", ");
+            kategooriadString+=(categoryNames[categories.indexOf(marker.categories[i])]+", ");
           }
-          $(".right-menu-categories").html(string);
-          //if(i==0){
-            //$(".right-menu-categories").html("Kategooriad: "+categoryNames[categories.indexOf(marker.categories[i])]+", ");
-          //}
-          //else if (){
-
-          //}
-          //else {
-            //$(".right-menu-categories").append(categoryNames[categories.indexOf(marker.categories[i])]);
-          //}
-
-
         }
-        console.log(string);
+        $(".right-menu-categories").html(kategooriadString);
+        var kategooriadStringGer = "Kategorien: ";
+        for(var i=0;i<marker.categoriesGer.length; i++){
+          if (i==marker.categoriesGer.length-1){
+            kategooriadStringGer+=marker.categoriesGer[i];
+          }
+          else {
+            kategooriadStringGer+=marker.categoriesGer[i]+", ";
+          }
+        }
+        $(".right-menu-categories-ger").html(kategooriadStringGer);
       }
     })(marker1));
 
@@ -230,15 +240,23 @@ function initMap() {
   $(".keelGer").click(function(){
     $(".right-menu-content").css("display", "none");
     $(".right-menu-heading").css("display", "none");
+    $(".right-menu-categories").css("display","none");
+    $(".keelGer").css("display", "none");
     $(".right-menu-heading-ger").css("display", "inline");
     $(".right-menu-content-ger").css("display", "inline");
+    $(".right-menu-categories-ger").css("display","inline");
+    $(".keelEst").css("display", "inline");
   })
 
   $(".keelEst").click(function(){
     $(".right-menu-content-ger").css("display", "none");
     $(".right-menu-heading-ger").css("display", "none");
+    $(".right-menu-categories-ger").css("display","none");
+    $(".keelEst").css("display", "none");
     $(".right-menu-heading").css("display", "inline");
     $(".right-menu-content").css("display", "inline");
+    $(".right-menu-categories").css("display","inline");
+    $(".keelGer").css("display", "inline");
   })
 
   function openNav() {

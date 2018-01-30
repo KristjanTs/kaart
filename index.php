@@ -31,9 +31,9 @@
       </div>
       <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
         <div id="rightMenu">
-          <button type='button' class='btn btn-danger btn-sm' id='closeRight'>Sulge</button>
-          <button type="button" class="btn btn-primary btn-sm keelEst">Est</button>
-          <button type="button" class="btn btn-primary btn-sm keelGer">Ger</button> <br  />
+          <a href="#" id="closeRight">&times;</a>
+          <button type="button" class="btn btn-primary btn-sm float-right keelEst">Est</button>
+          <button type="button" class="btn btn-primary btn-sm float-right keelGer">Ger</button> <br  />
           <div class="right-menu-heading">
           </div>
           <div class="right-menu-heading-ger">
