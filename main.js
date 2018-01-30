@@ -1,3 +1,12 @@
+var map;
+var markerList = [];
+var categories = [];
+var categoryNames = [];
+var api = "https://kaart.1473350.ee/wp-json/wp/v2/posts";
+var sissejuhatusAPI = "https://kaart.1473350.ee/wp-json/wp/v2/sissejuhatus";
+var kategooriadAPI ="https://kaart.1473350.ee/wp-json/wp/v2/categories";
+
+
 function initMap() {
   //Map style
   var styledMapType = new google.maps.StyledMapType(
@@ -113,11 +122,6 @@ function initMap() {
     ],
     {name: 'Styled Map'});
 
-    var markerList = [];
-    var api = "https://kaart.1473350.ee/wp-json/wp/v2/posts";
-    var sissejuhatusAPI = "https://kaart.1473350.ee/wp-json/wp/v2/sissejuhatus";
-    var kategooriadAPI ="https://kaart.1473350.ee/wp-json/wp/v2/categories";
-
     //Map options
     var mapOptions = {
       center: new google.maps.LatLng(58.382014, 26.728904),
@@ -132,7 +136,7 @@ function initMap() {
       }
     };
     //New map
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    map = new google.maps.Map(document.getElementById("map"), mapOptions);
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
 
@@ -153,49 +157,65 @@ function initMap() {
 
     $.getJSON(kategooriadAPI, function(data){
       for(var i=0; i<data.length; i++) {
+        categories.push(data[i].id);
+        categoryNames.push(data[i].name);
         $("#collapse-kategooriad").append("<div class='card card-block' id='side-nav-kategooriad'>"+ data[i].name +"</div>");
       };
     });
 
+
     $.getJSON(api, function(data){
       for(var i=0;i<data.length;i++){
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(data[i].acf.kaart.lat, data[i].acf.kaart.lng),
-          map: map,
-          title: data[i].title.rendered,
-          icon: "https://kaart.1473350.ee/wp-content/uploads/2018/01/map.png"
-
-        });
         markerList.push({
           lat: data[i].acf.kaart.lat,
           lon: data[i].acf.kaart.lng,
           rightHeading: data[i].title.rendered,
           rightHeadingGer: data[i].acf.pealkiri_saksa_keeles,
-          rightContent: data[i].acf.sisu_saksa_keeles,
+          rightContent: data[i].content.rendered,
+          rightContentGer: data[i].acf.sisu_saksa_keeles,
+          categories: data[i].categories
         });
-        var infowindow = new google.maps.InfoWindow({
-          content: data[i].content.rendered
-        });
-
-        google.maps.event.addListener(marker, 'click', function(marker, i) {
-          return function() {
-            //changeText();
-            infowindow.setContent(data[i].content.rendered + "");
-            $("#rightMenu").fadeIn();
-            $(".right-menu-heading").html("<h3>" + data[i].title.rendered + "</h3>");
-            $(".right-menu-heading-ger").html("<h3>"+data[i].acf.pealkiri_saksa_keeles+"</h3>")
-            $(".right-menu-content").html("<p>"+data[i].content.rendered+"</p>");
-            $(".right-menu-content-ger").html("<p>"+data[i].acf.sisu_saksa_keeles+"</p>")
-            if(data[i].acf.pilt != undefined){
-              $(".right-menu-picture").html("<img src="+data[i].acf.pilt+" class='img-fluid text-center' 'alt=Responsive image'>");
-            }
-          }
-        }(marker, i));
       }
-      console.log(data.length);
-      console.log(markerList);
-    })
+      for (var i = 0; i < markerList.length; i++) {
+          addMarker(markerList[i]);
+      }
+    });
+
+
   };
+
+  function addMarker(marker) {
+    var marker1 = new google.maps.Marker({
+      title: marker.rightHeading,
+      position: new google.maps.LatLng(marker.lat, marker.lon),
+      map: map,
+      icon: "https://kaart.1473350.ee/wp-content/uploads/2018/01/map.png"
+    });
+
+
+    google.maps.event.addListener(marker1, 'click', (function (marker1) {
+      return function () {
+        $("#rightMenu").fadeIn();
+        $(".right-menu-heading").html("<h3>" + marker.rightHeading + "</h3>");
+        $(".right-menu-heading-ger").html("<h3>"+marker.rightHeadingGer+"</h3>")
+        $(".right-menu-content").html("<p>"+marker.rightContent+"</p>");
+        $(".right-menu-content-ger").html("<p>"+marker.rightContentGer+"</p>");
+        for(var i=0; i<marker.categories.length; i++){
+          if(i==0){
+            $(".right-menu-categories").html("<p>Kategooriad: "+categoryNames[categories.indexOf(marker.categories[i])]+", ");
+          }
+          else {
+            $(".right-menu-categories").append(categoryNames[categories.indexOf(marker.categories[i])]);
+          }
+          if(i==marker.categories.length-1){
+            $(".right-menu-categories").append(" </p>");
+          }
+
+        }
+      }
+    })(marker1));
+
+  }
 
   $(".keelGer").click(function(){
     $(".right-menu-content").css("display", "none");
@@ -218,5 +238,3 @@ function initMap() {
   function closeNav() {
     document.getElementById("side-nav").style.width = "0";
   }
-
-  $()

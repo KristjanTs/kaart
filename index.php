@@ -44,6 +44,10 @@
           </div>
           <div class="right-menu-picture">
           </div>
+          <div class="right-menu-categories">
+          </div>
+          <div class="right-menu-categories-ger">
+          </div>
         </div>
       </div>
     </div>

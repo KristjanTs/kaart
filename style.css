@@ -122,3 +122,8 @@ html,body
   padding-left: 25px;
   cursor: pointer;
 }
+
+.right-menu-categories {
+  position: inline;
+  font-size: 0.9em;
+}
