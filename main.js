@@ -200,18 +200,28 @@ function initMap() {
         $(".right-menu-heading-ger").html("<h3>"+marker.rightHeadingGer+"</h3>")
         $(".right-menu-content").html("<p>"+marker.rightContent+"</p>");
         $(".right-menu-content-ger").html("<p>"+marker.rightContentGer+"</p>");
+        var string = "Kategooriad: ";
         for(var i=0; i<marker.categories.length; i++){
-          if(i==0){
-            $(".right-menu-categories").html("<p>Kategooriad: "+categoryNames[categories.indexOf(marker.categories[i])]+", ");
+          if (i==marker.categories.length-1){
+            string+=(categoryNames[categories.indexOf(marker.categories[i])]);
           }
           else {
-            $(".right-menu-categories").append(categoryNames[categories.indexOf(marker.categories[i])]);
+            string+=(categoryNames[categories.indexOf(marker.categories[i])]+", ");
           }
-          if(i==marker.categories.length-1){
-            $(".right-menu-categories").append(" </p>");
-          }
+          $(".right-menu-categories").html(string);
+          //if(i==0){
+            //$(".right-menu-categories").html("Kategooriad: "+categoryNames[categories.indexOf(marker.categories[i])]+", ");
+          //}
+          //else if (){
+
+          //}
+          //else {
+            //$(".right-menu-categories").append(categoryNames[categories.indexOf(marker.categories[i])]);
+          //}
+
 
         }
+        console.log(string);
       }
     })(marker1));
 
