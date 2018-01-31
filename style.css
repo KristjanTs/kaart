@@ -58,6 +58,11 @@ html,body
   display: none;
 }
 
+.right-menu-author {
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
 #closeRight {
   text-decoration: none;
   font-size: 46px;

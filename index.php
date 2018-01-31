@@ -44,6 +44,8 @@
           </div>
           <div class="right-menu-picture">
           </div>
+          <div class="right-menu-author">
+          </div>
           <div class="right-menu-categories">
           </div>
           <div class="right-menu-categories-ger">

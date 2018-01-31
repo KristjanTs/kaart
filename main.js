@@ -2,9 +2,11 @@ var map;
 var markerList = [];
 var categories = [];
 var categoryNames = [];
+var autorid = [];
 var api = "https://kaart.1473350.ee/wp-json/wp/v2/posts";
 var sissejuhatusAPI = "https://kaart.1473350.ee/wp-json/wp/v2/sissejuhatus";
-var kategooriadAPI ="https://kaart.1473350.ee/wp-json/wp/v2/categories";
+var kategooriadAPI = "https://kaart.1473350.ee/wp-json/wp/v2/categories";
+var autoridAPI = "https://kaart.1473350.ee/wp-json/wp/v2/autor";
 
 
 function initMap() {
@@ -163,19 +165,33 @@ function initMap() {
       };
     });
 
+    $.getJSON(autoridAPI, function(data){
+      for(var i=0; i<data.length; i++) {
+        autorid.push({
+          id: data[i].id,
+          autoriNimi: data[i].title.rendered,
+          autoriTekst: data[i].content.rendered,
+          autoriTekstGer: data[i].acf.autori_lugu_saksa_keeles,
+          autoriPilt: data[i].acf.autori_pilt.url
+        });
+      };
+    });
 
     $.getJSON(api, function(data){
       for(var i=0;i<data.length;i++){
         var gerList = [];
+        var autorInfo = [];
         if (typeof data[i].pure_taxonomies.kategooriad_saksa_keeles !== "undefined"){
           for(var j=0; j<data[i].pure_taxonomies.kategooriad_saksa_keeles.length; j++){
             gerList.push(data[i].pure_taxonomies.kategooriad_saksa_keeles[j].name);
           }
         }
 
-        //for(var j=0; j<data[i].pure_taxonomies.kategooriad_saksa_keeles.length;j++){
-          //categoriesGer.push(data[i].pure_taxonomies.kategooriad_saksa_keeles[j]);
-        //}
+        if (typeof data[i].acf.autor !== "undefined"){
+          autorInfo.push(data[i].acf.autor[0].id);
+          autorInfo.push(data[i].acf.autor[0].post_title)
+        }
+
         markerList.push({
           lat: data[i].acf.kaart.lat,
           lon: data[i].acf.kaart.lng,
@@ -184,10 +200,13 @@ function initMap() {
           rightContent: data[i].content.rendered,
           rightContentGer: data[i].acf.sisu_saksa_keeles,
           categories: data[i].categories,
-          categoriesGer: gerList
+          categoriesGer: gerList,
+          autoriID: autorInfo[0],
+          autoriNimi: autorInfo[1]
         });
       }
       console.log(markerList[0].categoriesGer);
+      console.log(autorid);
       for (var i = 0; i < markerList.length; i++) {
           addMarker(markerList[i]);
       }
@@ -212,6 +231,7 @@ function initMap() {
         $(".right-menu-heading-ger").html("<h3>"+marker.rightHeadingGer+"</h3>")
         $(".right-menu-content").html("<p>"+marker.rightContent+"</p>");
         $(".right-menu-content-ger").html("<p>"+marker.rightContentGer+"</p>");
+        $(".right-menu-author").html("<p>Autor: "+marker.autoriNimi+"</p>")
         var kategooriadString = "Kategooriad: ";
         for(var i=0; i<marker.categories.length; i++){
           if (i==marker.categories.length-1){
@@ -235,7 +255,7 @@ function initMap() {
       }
     })(marker1));
 
-  }
+  };
 
   $(".keelGer").click(function(){
     $(".right-menu-content").css("display", "none");
@@ -246,7 +266,7 @@ function initMap() {
     $(".right-menu-content-ger").css("display", "inline");
     $(".right-menu-categories-ger").css("display","inline");
     $(".keelEst").css("display", "inline");
-  })
+  });
 
   $(".keelEst").click(function(){
     $(".right-menu-content-ger").css("display", "none");
@@ -257,7 +277,17 @@ function initMap() {
     $(".right-menu-content").css("display", "inline");
     $(".right-menu-categories").css("display","inline");
     $(".keelGer").css("display", "inline");
-  })
+  });
+
+  $(".right-menu-author").click(function(){
+    $(".right-menu-content-ger").css("display", "none");
+    $(".right-menu-heading-ger").css("display", "none");
+    $(".right-menu-categories-ger").css("display","none");
+    $(".right-menu-content").css("display", "none");
+    $(".right-menu-heading").css("display", "none");
+    $(".right-menu-categories").css("display","none");
+
+  });
 
   function openNav() {
     document.getElementById("side-nav").style.width = "250px";
