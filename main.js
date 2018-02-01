@@ -1,4 +1,5 @@
 var map;
+var langMarker = "est";
 var markerList = [];
 var categories = [];
 var categoryNames = [];
@@ -146,6 +147,8 @@ function initMap() {
 
     google.maps.event.addListener(map, 'click', function() {
       $("#rightMenu").fadeOut();
+      $(".right-menu-author-heading").css("display", "none");
+      $(".right-menu-author-text").css("display", "none");
     });
     $('#closeRight').click(function() {
       $("#rightMenu").fadeOut();
@@ -181,6 +184,7 @@ function initMap() {
       for(var i=0;i<data.length;i++){
         var gerList = [];
         var autorInfo = [];
+        var autorLast = [];
         if (typeof data[i].pure_taxonomies.kategooriad_saksa_keeles !== "undefined"){
           for(var j=0; j<data[i].pure_taxonomies.kategooriad_saksa_keeles.length; j++){
             gerList.push(data[i].pure_taxonomies.kategooriad_saksa_keeles[j].name);
@@ -190,6 +194,12 @@ function initMap() {
         if (typeof data[i].acf.autor !== "undefined"){
           autorInfo.push(data[i].acf.autor[0].id);
           autorInfo.push(data[i].acf.autor[0].post_title)
+          for(autorInfo[0] in autorid) {
+            if (autorid.hasOwnProperty(autorInfo[0])){
+              autorLast.push(autorid[autorInfo[0]].autoriTekst);
+              autorLast.push(autorid[autorInfo[0]].autoriTekstGer);
+            }
+          }
         }
 
         markerList.push({
@@ -202,10 +212,12 @@ function initMap() {
           categories: data[i].categories,
           categoriesGer: gerList,
           autoriID: autorInfo[0],
-          autoriNimi: autorInfo[1]
+          autoriNimi: autorInfo[1],
+          autoriTekst: autorLast[0],
+          autoriTekstGer: autorLast[1]
         });
       }
-      console.log(markerList[0].categoriesGer);
+      console.log(markerList[0].autoriTekstGer);
       console.log(autorid);
       for (var i = 0; i < markerList.length; i++) {
           addMarker(markerList[i]);
@@ -227,11 +239,25 @@ function initMap() {
     google.maps.event.addListener(marker1, 'click', (function (marker1) {
       return function () {
         $("#rightMenu").fadeIn();
+        if(langMarker=="est"){
+          $(".right-menu-heading").css("display", "inline");
+          $(".right-menu-content").css("display", "inline");
+          $(".right-menu-categories").css("display","inline");
+        }
+        if(langMarker == "ger") {
+          $(".right-menu-heading-ger").css("display", "inline");
+          $(".right-menu-content-ger").css("display", "inline");
+          $(".right-menu-categories-ger").css("display","inline");
+        }
+
         $(".right-menu-heading").html("<h3>" + marker.rightHeading + "</h3>");
         $(".right-menu-heading-ger").html("<h3>"+marker.rightHeadingGer+"</h3>")
         $(".right-menu-content").html("<p>"+marker.rightContent+"</p>");
         $(".right-menu-content-ger").html("<p>"+marker.rightContentGer+"</p>");
-        $(".right-menu-author").html("<p>Autor: "+marker.autoriNimi+"</p>")
+        $(".right-menu-author").html("<p>Autor: "+marker.autoriNimi+"</p>");
+        $(".right-menu-author-text").html("<p>"+marker.autoriTekst+"</p>");
+        $(".right-menu-author-text-ger").html("<p>"+marker.autoriTekstGer+"</p>");
+        $(".right-menu-author-heading").html("<p>"+marker.autoriNimi+"</p>");
         var kategooriadString = "Kategooriad: ";
         for(var i=0; i<marker.categories.length; i++){
           if (i==marker.categories.length-1){
@@ -266,6 +292,7 @@ function initMap() {
     $(".right-menu-content-ger").css("display", "inline");
     $(".right-menu-categories-ger").css("display","inline");
     $(".keelEst").css("display", "inline");
+    langMarker = "ger";
   });
 
   $(".keelEst").click(function(){
@@ -277,6 +304,7 @@ function initMap() {
     $(".right-menu-content").css("display", "inline");
     $(".right-menu-categories").css("display","inline");
     $(".keelGer").css("display", "inline");
+    langMarker = "est";
   });
 
   $(".right-menu-author").click(function(){
@@ -286,6 +314,8 @@ function initMap() {
     $(".right-menu-content").css("display", "none");
     $(".right-menu-heading").css("display", "none");
     $(".right-menu-categories").css("display","none");
+    $(".right-menu-author-heading").css("display", "inline");
+    $(".right-menu-author-text").css("display", "inline");
 
   });
 

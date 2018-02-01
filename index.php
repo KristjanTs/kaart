@@ -44,6 +44,12 @@
           </div>
           <div class="right-menu-picture">
           </div>
+          <div class="right-menu-author-heading">
+          </div>
+          <div class="right-menu-author-text">
+          </div>
+          <div class="right-menu-author-text-ger">
+          </div>
           <div class="right-menu-author">
           </div>
           <div class="right-menu-categories">

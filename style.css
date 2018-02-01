@@ -63,6 +63,18 @@ html,body
   cursor: pointer;
 }
 
+.right-menu-author-heading {
+  display: none;
+}
+
+.right-menu-author-text {
+  display: none;
+}
+
+.right-menu-author-text-ger {
+  display: none;
+}
+
 #closeRight {
   text-decoration: none;
   font-size: 46px;
