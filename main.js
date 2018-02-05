@@ -281,7 +281,7 @@ function initMap() {
           $(".right-menu-content-ger").css("display", "inline");
           $(".right-menu-categories-ger").css("display","inline");
         }
-
+        map.panTo(new google.maps.LatLng(marker.lat,marker.lon- (-0.02)));
         $(".right-menu-heading").html("<h3>" + marker.rightHeading + "</h3>");
         $(".right-menu-heading-ger").html("<h3>"+marker.rightHeadingGer+"</h3>")
         $(".right-menu-content").html("<p>"+marker.rightContent+"</p>");
