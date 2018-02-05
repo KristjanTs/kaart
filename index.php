@@ -32,8 +32,8 @@
       <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
         <div id="rightMenu">
           <a href="#" id="closeRight">&times;</a>
-          <button type="button" class="btn btn-primary btn-sm float-right keelEst">Est</button>
-          <button type="button" class="btn btn-primary btn-sm float-right keelGer">Ger</button> <br  />
+          <img class="float-right keelEst" src="https://kaart.1473350.ee/wp-content/uploads/2018/02/est-flag.png" />
+          <img class="float-right keelGer" src="https://kaart.1473350.ee/wp-content/uploads/2018/02/flag-ger.png" /><br  />
           <div class="right-menu-heading">
           </div>
           <div class="right-menu-heading-ger">
@@ -45,6 +45,8 @@
           <div class="right-menu-picture">
           </div>
           <div class="right-menu-author-heading">
+          </div>
+          <div class="right-menu-author-picture">
           </div>
           <div class="right-menu-author-text">
           </div>

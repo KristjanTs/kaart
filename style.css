@@ -49,6 +49,11 @@ html,body
   display: none;
 }
 
+.right-image {
+  width: 600px;
+  border-radius: 5px;
+}
+
 .right-menu-categories {
   font-size: 0.9em;
 }
@@ -75,6 +80,10 @@ html,body
   display: none;
 }
 
+.right-menu-author-picture {
+  display: none;
+}
+
 #closeRight {
   text-decoration: none;
   font-size: 46px;
@@ -84,12 +93,14 @@ html,body
 .keelEst {
   margin-top: 25px;
   margin-left: 10px;
+  cursor: pointer;
   display: none;
 }
 
 .keelGer {
   margin-top: 25px;
   margin-left: 10px;
+  cursor: pointer;
 }
 
 /* Left nav css */

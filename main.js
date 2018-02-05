@@ -1,10 +1,11 @@
 var map;
 var langMarker = "est";
+var authorMarker = false;
 var markerList = [];
 var categories = [];
 var categoryNames = [];
 var autorid = [];
-var api = "https://kaart.1473350.ee/wp-json/wp/v2/posts";
+var api = "https://kaart.1473350.ee/wp-json/wp/v2/punkt";
 var sissejuhatusAPI = "https://kaart.1473350.ee/wp-json/wp/v2/sissejuhatus";
 var kategooriadAPI = "https://kaart.1473350.ee/wp-json/wp/v2/categories";
 var autoridAPI = "https://kaart.1473350.ee/wp-json/wp/v2/autor";
@@ -133,6 +134,7 @@ function initMap() {
       disableDefaultUI: true,
       zoomControl: true,
       minZoom: 14,
+      gestureHandling: "greedy",
       mapTypeControlOptions: {
         mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
         'styled_map']
@@ -142,6 +144,8 @@ function initMap() {
     map = new google.maps.Map(document.getElementById("map"), mapOptions);
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
+    infoWindow = new google.maps.InfoWindow;
+
 
     //Add marker
 
@@ -149,9 +153,19 @@ function initMap() {
       $("#rightMenu").fadeOut();
       $(".right-menu-author-heading").css("display", "none");
       $(".right-menu-author-text").css("display", "none");
+      $(".right-menu-author-picture").css("display", "none");
+      $(".right-menu-author-text-ger").css("display", "none");
+      $(".right-menu-picture").css("display", "inline");
+      authorMarker = false;
     });
     $('#closeRight').click(function() {
       $("#rightMenu").fadeOut();
+      $(".right-menu-author-heading").css("display", "none");
+      $(".right-menu-author-text").css("display", "none");
+      $(".right-menu-author-picture").css("display", "none");
+      $(".right-menu-author-text-ger").css("display", "none");
+      $(".right-menu-picture").css("display", "inline");
+      authorMarker = false;
     });
 
     $.getJSON(sissejuhatusAPI, function(data){
@@ -182,12 +196,26 @@ function initMap() {
 
     $.getJSON(api, function(data){
       for(var i=0;i<data.length;i++){
+        var katList = [];
         var gerList = [];
         var autorInfo = [];
         var autorLast = [];
+        var pildid = [];
+
+        if (typeof data[i].acf.pilt !== "undefined") {
+          pildid.push(data[i].acf.pilt.url);
+
+        }
+
         if (typeof data[i].pure_taxonomies.kategooriad_saksa_keeles !== "undefined"){
           for(var j=0; j<data[i].pure_taxonomies.kategooriad_saksa_keeles.length; j++){
             gerList.push(data[i].pure_taxonomies.kategooriad_saksa_keeles[j].name);
+          }
+        }
+
+        if (typeof data[i].pure_taxonomies.kategooriad_eesti_keeles !== "undefined"){
+          for(var j=0; j<data[i].pure_taxonomies.kategooriad_eesti_keeles.length; j++){
+            katList.push(data[i].pure_taxonomies.kategooriad_eesti_keeles[j].name);
           }
         }
 
@@ -198,6 +226,7 @@ function initMap() {
             if (autorid.hasOwnProperty(autorInfo[0])){
               autorLast.push(autorid[autorInfo[0]].autoriTekst);
               autorLast.push(autorid[autorInfo[0]].autoriTekstGer);
+              autorLast.push(autorid[autorInfo[0]].autoriPilt);
             }
           }
         }
@@ -209,16 +238,19 @@ function initMap() {
           rightHeadingGer: data[i].acf.pealkiri_saksa_keeles,
           rightContent: data[i].content.rendered,
           rightContentGer: data[i].acf.sisu_saksa_keeles,
-          categories: data[i].categories,
+          pilt: pildid[0],
+          categories: katList,
           categoriesGer: gerList,
           autoriID: autorInfo[0],
           autoriNimi: autorInfo[1],
           autoriTekst: autorLast[0],
-          autoriTekstGer: autorLast[1]
+          autoriTekstGer: autorLast[1],
+          autoriPilt: autorLast[2]
         });
       }
       console.log(markerList[0].autoriTekstGer);
       console.log(autorid);
+      console.log(markerList[0].autoriPilt);
       for (var i = 0; i < markerList.length; i++) {
           addMarker(markerList[i]);
       }
@@ -254,10 +286,12 @@ function initMap() {
         $(".right-menu-heading-ger").html("<h3>"+marker.rightHeadingGer+"</h3>")
         $(".right-menu-content").html("<p>"+marker.rightContent+"</p>");
         $(".right-menu-content-ger").html("<p>"+marker.rightContentGer+"</p>");
-        $(".right-menu-author").html("<p>Autor: "+marker.autoriNimi+"</p>");
+        $(".right-menu-picture").html('<img src="'+marker.pilt+'" class="right-image" alt=""><br /><br /> ');
+        $(".right-menu-author").html("<h6>Autor: "+marker.autoriNimi+"</h6>");
+        $(".right-menu-author-picture").html("<img src='"+marker.autoriPilt+"' class='author-image' />");
         $(".right-menu-author-text").html("<p>"+marker.autoriTekst+"</p>");
         $(".right-menu-author-text-ger").html("<p>"+marker.autoriTekstGer+"</p>");
-        $(".right-menu-author-heading").html("<p>"+marker.autoriNimi+"</p>");
+        $(".right-menu-author-heading").html("<h3>"+marker.autoriNimi+"</h3>");
         var kategooriadString = "Kategooriad: ";
         for(var i=0; i<marker.categories.length; i++){
           if (i==marker.categories.length-1){
@@ -284,27 +318,47 @@ function initMap() {
   };
 
   $(".keelGer").click(function(){
-    $(".right-menu-content").css("display", "none");
-    $(".right-menu-heading").css("display", "none");
-    $(".right-menu-categories").css("display","none");
-    $(".keelGer").css("display", "none");
-    $(".right-menu-heading-ger").css("display", "inline");
-    $(".right-menu-content-ger").css("display", "inline");
-    $(".right-menu-categories-ger").css("display","inline");
-    $(".keelEst").css("display", "inline");
-    langMarker = "ger";
+    if(authorMarker == false) {
+      $(".right-menu-content").css("display", "none");
+      $(".right-menu-heading").css("display", "none");
+      $(".right-menu-categories").css("display","none");
+      $(".keelGer").css("display", "none");
+      $(".right-menu-heading-ger").css("display", "inline");
+      $(".right-menu-content-ger").css("display", "inline");
+      $(".right-menu-categories-ger").css("display","inline");
+      $(".keelEst").css("display", "inline");
+      langMarker = "ger";
+    }
+    else {
+      $(".right-menu-author-text").css("display", "none");
+      $(".right-menu-author-text-ger").css("display","inline");
+      $(".keelGer").css("display", "none");
+      $(".keelEst").css("display", "inline");
+      langMarker = "ger";
+    }
+
   });
 
   $(".keelEst").click(function(){
-    $(".right-menu-content-ger").css("display", "none");
-    $(".right-menu-heading-ger").css("display", "none");
-    $(".right-menu-categories-ger").css("display","none");
-    $(".keelEst").css("display", "none");
-    $(".right-menu-heading").css("display", "inline");
-    $(".right-menu-content").css("display", "inline");
-    $(".right-menu-categories").css("display","inline");
-    $(".keelGer").css("display", "inline");
-    langMarker = "est";
+    if(authorMarker == false) {
+      $(".right-menu-content-ger").css("display", "none");
+      $(".right-menu-heading-ger").css("display", "none");
+      $(".right-menu-categories-ger").css("display","none");
+      $(".keelEst").css("display", "none");
+      $(".right-menu-heading").css("display", "inline");
+      $(".right-menu-content").css("display", "inline");
+      $(".right-menu-categories").css("display","inline");
+      $(".keelGer").css("display", "inline");
+      langMarker = "est";
+    }
+    else {
+      $(".right-menu-author-text-ger").css("display", "none");
+      $(".right-menu-author-text").css("display","inline");
+      $(".keelEst").css("display", "none");
+      $(".keelGer").css("display", "inline");
+      langMarker = "est";
+    }
+
   });
 
   $(".right-menu-author").click(function(){
@@ -314,9 +368,11 @@ function initMap() {
     $(".right-menu-content").css("display", "none");
     $(".right-menu-heading").css("display", "none");
     $(".right-menu-categories").css("display","none");
+    $(".right-menu-picture").css("display", "none");
+    $(".right-menu-author-picture").css("display", "inline");
     $(".right-menu-author-heading").css("display", "inline");
     $(".right-menu-author-text").css("display", "inline");
-
+    authorMarker = true;
   });
 
   function openNav() {
