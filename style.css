@@ -52,6 +52,7 @@ html,body
 .right-image {
   width: 600px;
   border-radius: 5px;
+  margin-left: 20px;
 }
 
 .right-menu-categories {

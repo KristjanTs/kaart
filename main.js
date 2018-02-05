@@ -295,13 +295,14 @@ function initMap() {
         var kategooriadString = "Kategooriad: ";
         for(var i=0; i<marker.categories.length; i++){
           if (i==marker.categories.length-1){
-            kategooriadString+=(categoryNames[categories.indexOf(marker.categories[i])]);
+            kategooriadString+=marker.categories[i];
           }
           else {
-            kategooriadString+=(categoryNames[categories.indexOf(marker.categories[i])]+", ");
+            kategooriadString+=marker.categories[i]+", ";
           }
         }
         $(".right-menu-categories").html(kategooriadString);
+
         var kategooriadStringGer = "Kategorien: ";
         for(var i=0;i<marker.categoriesGer.length; i++){
           if (i==marker.categoriesGer.length-1){
