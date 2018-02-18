@@ -5,6 +5,7 @@ var markerList = [];
 var categories = [];
 var categoryNames = [];
 var autorid = [];
+var sissejuhatus = [];
 var api = "https://kaart.1473350.ee/wp-json/wp/v2/punkt";
 var sissejuhatusAPI = "https://kaart.1473350.ee/wp-json/wp/v2/sissejuhatus";
 var kategooriadAPI = "https://kaart.1473350.ee/wp-json/wp/v2/categories";
@@ -172,6 +173,11 @@ function initMap() {
       $(".right-menu-heading").html("<h3 class='text-center'>"+data[0].title.rendered+"</h3>");
       $(".right-menu-content").html("<p>"+data[0].content.rendered+"</p>");
       $(".right-menu-content-ger").html("<p>"+data[0].acf.saksa_keelne_sissejuhatus+"</p>");
+      sissejuhatus.push({
+        title: data[0].title.rendered,
+        content: data[0].content.rendered,
+        contentGer: data[0].acf.saksa_keelne_sissejuhatus
+      });
     });
 
     $.getJSON(kategooriadAPI, function(data){
@@ -374,6 +380,24 @@ function initMap() {
     $(".right-menu-author-heading").css("display", "inline");
     $(".right-menu-author-text").css("display", "inline");
     authorMarker = true;
+  });
+
+  $(".left-menu-tutvustus").click(function(){
+    authorMarker=false;
+    $("#rightMenu").fadeIn();
+    $(".right-menu-content-ger").css("display", "none");
+    $(".right-menu-heading-ger").css("display", "none");
+    $(".right-menu-categories-ger").css("display","none");
+    $(".right-menu-content").css("display", "inline");
+    $(".right-menu-content").html("<h4>"+sissejuhatus.content+"</h4>");
+    $(".right-menu-heading").css("display", "inline");
+    $(".right-menu-heading").html("<p>"+sissejuhatus.title+"</p>");
+    $(".right-menu-categories").css("display","none");
+    $(".right-menu-picture").css("display", "none");
+    $(".right-menu-author-picture").css("display", "none");
+    $(".right-menu-author-heading").css("display", "none");
+    $(".right-menu-author-text").css("display", "none");
+
   });
 
   function openNav() {

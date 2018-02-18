@@ -8,18 +8,18 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://kaart.1473350.ee/wp-content/themes/kaart-3/style.css" />
+  <link rel="stylesheet" href="http://linnamuuseum.tartu.ee/baltisaksa-tartu/wp-content/themes/kaart/style.css" />
 </head>
 
 <body>
   <div id="container">
     <div class="side-nav" id="side-nav">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a href="#"><h3>Tutvustus</h3></a>
+      <a href="#" class="left-menu-tutvustus"><h3>Tutvustus</h3></a>
       <a data-toggle="collapse" href="#collapse-kategooriad" aria-expanded="false" aria-controls="collapse-kategooriad"><h3>Kategooriad</h3></a>
       <div class="collapse" id="collapse-kategooriad">
       </div>
-      <a href="#"><h3>Ajaloolised kaardid</h3></a>
+      <a href="#" onClick="openModal();"><h3>Ajaloolised kaardid</h3></a>
     </div>
     <div id="nav2">
       <span id="menu-burger" style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
@@ -65,7 +65,7 @@
     <div id="map"></div>
   </div>
 
-  <script src="https://kaart.1473350.ee/wp-content/themes/kaart-3/main.js"></script>
+  <script src="http://linnamuuseum.tartu.ee/baltisaksa-tartu/wp-content/themes/kaart/main.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAs8Bmb6fzACSu3RDyMWV7JVxrXKp6D9o&callback=initMap" type="text/javascript"></script>
 
 </body>
