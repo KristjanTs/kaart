@@ -39,18 +39,13 @@ html,body
   overflow-y: scroll;
 }
 
-.right-menu-heading-ger {
+.ger-content {
   display: none;
 }
 
-.right-menu-content-ger {
+.right-menu-meta-ger {
   display: none;
-}
-
-.right-image {
-  width: 600px;
-  border-radius: 5px;
-  margin-left: 20px;
+  font-size: 0.9em;
 }
 
 .right-menu-categories {
@@ -59,7 +54,10 @@ html,body
 
 .right-menu-categories-ger {
   font-size: 0.9em;
-  display: none;
+}
+
+.right-menu-meta {
+  font-size: 0.9em;
 }
 
 .right-menu-author {

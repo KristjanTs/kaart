@@ -2,14 +2,12 @@ var map;
 var langMarker = "est";
 var authorMarker = false;
 var markerList = [];
-var categories = [];
 var categoryNames = [];
 var autorid = [];
 var sissejuhatus = [];
-var api = "https://kaart.1473350.ee/wp-json/wp/v2/punkt";
-var sissejuhatusAPI = "https://kaart.1473350.ee/wp-json/wp/v2/sissejuhatus";
-var kategooriadAPI = "https://kaart.1473350.ee/wp-json/wp/v2/categories";
-var autoridAPI = "https://kaart.1473350.ee/wp-json/wp/v2/autor";
+var api = "http://linnamuuseum.tartu.ee/baltisaksa-tartu/wp-json/wp/v2/punkt";
+var sissejuhatusAPI = "http://linnamuuseum.tartu.ee/baltisaksa-tartu/wp-json/wp/v2/sissejuhatus";
+var autoridAPI = "http://linnamuuseum.tartu.ee/baltisaksa-tartu/wp-json/wp/v2/autor";
 
 
 function initMap() {
@@ -176,16 +174,10 @@ function initMap() {
       sissejuhatus.push({
         title: data[0].title.rendered,
         content: data[0].content.rendered,
+        titleGer: data[0].acf.saksa_keelne_sissejuhatuse_pealkiri,
         contentGer: data[0].acf.saksa_keelne_sissejuhatus
       });
-    });
-
-    $.getJSON(kategooriadAPI, function(data){
-      for(var i=0; i<data.length; i++) {
-        categories.push(data[i].id);
-        categoryNames.push(data[i].name);
-        $("#collapse-kategooriad").append("<div class='card card-block' id='side-nav-kategooriad'>"+ data[i].name +"</div>");
-      };
+      $(".right-menu-heading-ger").html("<h3 class='text-center'>"+sissejuhatus[0].titleGer+"</h3>");
     });
 
     $.getJSON(autoridAPI, function(data){
@@ -206,11 +198,30 @@ function initMap() {
         var gerList = [];
         var autorInfo = [];
         var autorLast = [];
-        var pildid = [];
+        var helifail = [];
+        var videofail = [];
+        var latlng = [];
+        var pildiURL = [];
+/*
+        if (typeof data[i].acf.punktiga_seotud_pildid !== "undefined") {
+          var idArray = data[i].acf.punktiga_seotud_pildid.split(",");
+          for(var i=0; i<idArray.length; i++) {
+            $.getJSON("http://linnamuuseum.tartu.ee/baltisaksa-tartu/wp-json/wp/v2/media/"+idArray[i], function(data2){
+              pildiURL.push(data2.guid.rendered);
+              console.log(data2.guid.rendered);
+            });
+          };
+        };
+        */
 
-        if (typeof data[i].acf.pilt !== "undefined") {
-          pildid.push(data[i].acf.pilt.url);
 
+        if(data[i].acf.kaart !== "") {
+          latlng.push(parseFloat(data[i].acf.kaart.lat));
+          latlng.push(parseFloat(data[i].acf.kaart.lng));
+        }
+        else {
+          latlng.push(parseFloat(data[i].acf.latitude));
+          latlng.push(parseFloat(data[i].acf.longitude));
         }
 
         if (typeof data[i].pure_taxonomies.kategooriad_saksa_keeles !== "undefined"){
@@ -237,26 +248,42 @@ function initMap() {
           }
         }
 
+        if (data[i].acf.helifail != false) {
+          helifail.push(data[i].acf.helifail.title);
+          helifail.push(data[i].acf.helifail.url);
+        }
+
+        if (data[i].acf.videofail != false) {
+          videofail.push(data[i].acf.videofail.title);
+          videofail.push(data[i].acf.videofail.url);
+        }
+
         markerList.push({
-          lat: data[i].acf.kaart.lat,
-          lon: data[i].acf.kaart.lng,
+          lat: latlng[0],
+          lon: latlng[1],
           rightHeading: data[i].title.rendered,
           rightHeadingGer: data[i].acf.pealkiri_saksa_keeles,
           rightContent: data[i].content.rendered,
           rightContentGer: data[i].acf.sisu_saksa_keeles,
-          pilt: pildid[0],
           categories: katList,
           categoriesGer: gerList,
           autoriID: autorInfo[0],
           autoriNimi: autorInfo[1],
           autoriTekst: autorLast[0],
           autoriTekstGer: autorLast[1],
-          autoriPilt: autorLast[2]
+          autoriPilt: autorLast[2],
+          tolkeAutor: data[i].acf.tõlke_autor,
+          eestiTolge: data[i].acf.eesti_keelse_tõlke_ilmumise_aeg,
+          ajastu: data[i].acf.kajastatud_ajastu,
+          helifailiNimi: helifail[0],
+          helifailiUrl: helifail[1],
+          videofailiNimi: videofail[0],
+          videofailiUrl: videofail[1],
+          ajastu: data[i].acf.kajastatud_ajastu,
+          tõlkeAutor: data[i].acf.tõlke_autor,
+          tõlkeIlmumine: data[i].acf.eesti_keelse_tõlke_ilmumise_aeg
         });
       }
-      console.log(markerList[0].autoriTekstGer);
-      console.log(autorid);
-      console.log(markerList[0].autoriPilt);
       for (var i = 0; i < markerList.length; i++) {
           addMarker(markerList[i]);
       }
@@ -278,26 +305,29 @@ function initMap() {
       return function () {
         $("#rightMenu").fadeIn();
         if(langMarker=="est"){
-          $(".right-menu-heading").css("display", "inline");
-          $(".right-menu-content").css("display", "inline");
-          $(".right-menu-categories").css("display","inline");
+          $(".est-content").css("display", "inline");
+          $(".right-menu-meta").css("display", "inline");
         }
         if(langMarker == "ger") {
-          $(".right-menu-heading-ger").css("display", "inline");
-          $(".right-menu-content-ger").css("display", "inline");
-          $(".right-menu-categories-ger").css("display","inline");
+          $(".ger-content").css("display", "inline");
+          $(".right-menu-meta").css("display", "inline");
         }
-        map.panTo(new google.maps.LatLng(marker.lat,marker.lon- (-0.02)));
         $(".right-menu-heading").html("<h3>" + marker.rightHeading + "</h3>");
         $(".right-menu-heading-ger").html("<h3>"+marker.rightHeadingGer+"</h3>")
         $(".right-menu-content").html("<p>"+marker.rightContent+"</p>");
         $(".right-menu-content-ger").html("<p>"+marker.rightContentGer+"</p>");
-        $(".right-menu-picture").html('<img src="'+marker.pilt+'" class="right-image" alt=""><br /><br /> ');
-        $(".right-menu-author").html("<h6>Autor: "+marker.autoriNimi+"</h6>");
+        $(".right-menu-author").html("Autor: "+marker.autoriNimi);
         $(".right-menu-author-picture").html("<img src='"+marker.autoriPilt+"' class='author-image' />");
         $(".right-menu-author-text").html("<p>"+marker.autoriTekst+"</p>");
         $(".right-menu-author-text-ger").html("<p>"+marker.autoriTekstGer+"</p>");
         $(".right-menu-author-heading").html("<h3>"+marker.autoriNimi+"</h3>");
+        $(".right-menu-translation-author").html("Tõlke autor: " + marker.tõlkeAutor);
+        $(".right-menu-translation-date").html("Tõlke aasta: "+marker.tõlkeIlmumine);
+        $(".right-menu-era").html("Ajastu: "+marker.ajastu);
+        $(".right-menu-translation-author-ger").html("Translator: "+marker.tõlkeAutor);
+        $(".right-menu-translation-date-ger").html("Date of translation: "+marker.tõlkeIlmumine);
+        $(".right-menu-era-ger").html("Era: "+marker.ajastu);
+
         var kategooriadString = "Kategooriad: ";
         for(var i=0; i<marker.categories.length; i++){
           if (i==marker.categories.length-1){
@@ -326,13 +356,11 @@ function initMap() {
 
   $(".keelGer").click(function(){
     if(authorMarker == false) {
-      $(".right-menu-content").css("display", "none");
-      $(".right-menu-heading").css("display", "none");
-      $(".right-menu-categories").css("display","none");
+      $(".est-content").css("display", "none");
+      $(".right-menu-meta").css("display", "none");
       $(".keelGer").css("display", "none");
-      $(".right-menu-heading-ger").css("display", "inline");
-      $(".right-menu-content-ger").css("display", "inline");
-      $(".right-menu-categories-ger").css("display","inline");
+      $(".ger-content").css("display", "inline");
+      $(".right-menu-meta-ger").css("display", "inline");
       $(".keelEst").css("display", "inline");
       langMarker = "ger";
     }
@@ -348,13 +376,11 @@ function initMap() {
 
   $(".keelEst").click(function(){
     if(authorMarker == false) {
-      $(".right-menu-content-ger").css("display", "none");
-      $(".right-menu-heading-ger").css("display", "none");
-      $(".right-menu-categories-ger").css("display","none");
+      $(".ger-content").css("display", "none");
+      $(".right-menu-meta-ger").css("display", "none");
       $(".keelEst").css("display", "none");
-      $(".right-menu-heading").css("display", "inline");
-      $(".right-menu-content").css("display", "inline");
-      $(".right-menu-categories").css("display","inline");
+      $(".est-content").css("display", "inline");
+      $(".right-menu-meta").css("display", "inline");
       $(".keelGer").css("display", "inline");
       langMarker = "est";
     }
@@ -369,13 +395,8 @@ function initMap() {
   });
 
   $(".right-menu-author").click(function(){
-    $(".right-menu-content-ger").css("display", "none");
-    $(".right-menu-heading-ger").css("display", "none");
-    $(".right-menu-categories-ger").css("display","none");
-    $(".right-menu-content").css("display", "none");
-    $(".right-menu-heading").css("display", "none");
-    $(".right-menu-categories").css("display","none");
-    $(".right-menu-picture").css("display", "none");
+    $(".ger-content").css("display", "none");
+    $(".est-content").css("display", "none");
     $(".right-menu-author-picture").css("display", "inline");
     $(".right-menu-author-heading").css("display", "inline");
     $(".right-menu-author-text").css("display", "inline");
@@ -385,19 +406,20 @@ function initMap() {
   $(".left-menu-tutvustus").click(function(){
     authorMarker=false;
     $("#rightMenu").fadeIn();
-    $(".right-menu-content-ger").css("display", "none");
-    $(".right-menu-heading-ger").css("display", "none");
-    $(".right-menu-categories-ger").css("display","none");
-    $(".right-menu-content").css("display", "inline");
-    $(".right-menu-content").html("<h4>"+sissejuhatus.content+"</h4>");
+    $("ger-content").css("display", "none");
+    $(".right-menu-content-ger").html("<p>"+sissejuhatus[0].contentGer+"</p>");
+    $(".right-menu-heading-ger").html("<h3 class='text-center'>"+sissejuhatus[0].titleGer+"</h3>");
     $(".right-menu-heading").css("display", "inline");
-    $(".right-menu-heading").html("<p>"+sissejuhatus.title+"</p>");
+    $(".right-menu-heading").html("<h3 class='text-center'>"+sissejuhatus[0].title+"</h3>");
+    $(".right-menu-content").css("display", "inline");
+    $(".right-menu-content").html("<p>"+sissejuhatus[0].content+"</p>");
     $(".right-menu-categories").css("display","none");
     $(".right-menu-picture").css("display", "none");
     $(".right-menu-author-picture").css("display", "none");
     $(".right-menu-author-heading").css("display", "none");
     $(".right-menu-author-text").css("display", "none");
-
+    $(".right-menu-meta").css("display", "none");
+    $(".right-menu-meta-ger").css("display", "none");
   });
 
   function openNav() {

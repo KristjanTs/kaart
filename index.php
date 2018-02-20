@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://kaart.1473350.ee/wp-content/themes/kaart-3/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -34,29 +34,50 @@
           <a href="#" id="closeRight">&times;</a>
           <img class="float-right keelEst" src="https://kaart.1473350.ee/wp-content/uploads/2018/02/est-flag.png" />
           <img class="float-right keelGer" src="https://kaart.1473350.ee/wp-content/uploads/2018/02/flag-ger.png" /><br  />
-          <div class="right-menu-heading">
+          <div class="est-content">
+            <div class="right-menu-heading">
+            </div>
+            <div class="right-menu-content">
+            </div>
+            <div class="right-menu-categories">
+            </div>
           </div>
-          <div class="right-menu-heading-ger">
-          </div>
-          <div class="right-menu-content">
-          </div>
-          <div class="right-menu-content-ger">
-          </div>
-          <div class="right-menu-picture">
+          <div class="ger-content">
+            <div class="right-menu-heading-ger">
+            </div>
+            <div class="right-menu-content-ger">
+            </div>
+            <div class="right-menu-categories-ger">
+            </div>
           </div>
           <div class="right-menu-author-heading">
           </div>
           <div class="right-menu-author-picture">
           </div>
-          <div class="right-menu-author-text">
+          <div class="right-menu-meta">
+            <div class="right-menu-translation-author">
+            </div>
+            <div class="right-menu-translation-date">
+            </div>
+            <div class="right-menu-era">
+            </div>
+            <div class="right-menu-author">
+            </div>
           </div>
+          <div class="right-menu-meta-ger">
+            <div class="right-menu-translation-author-ger">
+            </div>
+            <div class="right-menu-translation-date-ger">
+            </div>
+            <div class="right-menu-era-ger">
+            </div>
+            <div class="right-menu-author">
+            </div>
+          </div>
+
           <div class="right-menu-author-text-ger">
           </div>
-          <div class="right-menu-author">
-          </div>
-          <div class="right-menu-categories">
-          </div>
-          <div class="right-menu-categories-ger">
+          <div class="right-menu-author-text">
           </div>
         </div>
       </div>
@@ -65,7 +86,7 @@
     <div id="map"></div>
   </div>
 
-  <script src="https://kaart.1473350.ee/wp-content/themes/kaart-3/main.js"></script>
+  <script src="main.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAs8Bmb6fzACSu3RDyMWV7JVxrXKp6D9o&callback=initMap" type="text/javascript"></script>
 
 </body>
